@@ -124,7 +124,8 @@ header {
 
 /* メインコンテンツ */
 .container {
-  max-width: 800px;
+  width: max(320px, calc(100% - 80px)); /* 画面両側に40pxずつマージンを取り、最小幅320pxを保証 */
+  max-width: 1200px; /* 大きすぎない最大幅 */
   margin: 40px auto;
   padding: 0 20px;
   background: #fff;
