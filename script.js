@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // デフォルトのセクションを読み込む
-  loadSection('about');
+  loadSection('top');
 
   // ナビゲーションリンクのクリックイベント
   navLinks.forEach(link => {
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
       loadSection(hash);
     } else {
       // ハッシュがない場合はデフォルトセクションを読み込む
-      loadSection('about');
+      loadSection('top');
     }
   }
   
