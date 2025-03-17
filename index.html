@@ -41,7 +41,13 @@
       padding: 0 20px;
       background: #fff;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      flex: 1; /* 残りのスペースを全て使用 */
+      /* flex: 1; を削除してコンテナーが内容に合わせて高さを調整するようにする */
+    }
+    main {
+      flex: 1; /* コンテナーではなく、mainタグに適用してフッターを下に押し出す */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     section {
       padding: 20px;
@@ -62,37 +68,39 @@
       padding: 10px;
       background-color: #0F5474;
       color: #fff;
-      margin-top: auto; /* 自動マージンで下部に固定 */
+      width: 100%;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>上条 藍悠</h1>
-    <p>Aihisa Kamijo</p>
+    <h1>上条 藍悠 のホームページ</h1>
+    <p>Aihisa Kamijo's Home Page</p>
   </header>
 
-  <div class="container">
-    <section id="about">
-      <h2>自己紹介</h2>
-      <p>TBD</p>
-    </section>
+  <main>
+    <div class="container">
+      <section id="about">
+        <h2>自己紹介</h2>
+        <p>TBD</p>
+      </section>
 
-    <section id="carrer">
-      <h2>経歴</h2>
-      <p>TBD</p>
-    </section>
+      <section id="carrer">
+        <h2>経歴</h2>
+        <p>TBD</p>
+      </section>
 
-    <section id="portfolio">
-      <h2>ポートフォリオ</h2>
-      <p>TBD</p>
-    </section>
+      <section id="portfolio">
+        <h2>ポートフォリオ</h2>
+        <p>TBD</p>
+      </section>
 
-    <section id="contact">
-      <h2>お問い合わせ</h2>
-      <p>TBD</p>
-    </section>
-  </div>
+      <section id="contact">
+        <h2>お問い合わせ</h2>
+        <p>TBD</p>
+      </section>
+    </div>
+  </main>
 
   <footer>
     <p>&copy; 2025 Aihisa Kamijo. All Rights Reserved.</p>
