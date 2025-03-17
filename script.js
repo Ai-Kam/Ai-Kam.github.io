@@ -3,14 +3,17 @@ document.addEventListener('DOMContentLoaded', function() {
   const menuButton = document.getElementById('menuButton');
   const mainNav = document.getElementById('mainNav');
   const navLinks = mainNav.querySelectorAll('a');
-  const sections = document.querySelectorAll('section');
-  const container = document.querySelector('.container');
+  const contentContainer = document.getElementById('contentContainer');
+  const loadingIndicator = document.getElementById('loading');
 
   // メニューボタンのクリックイベント
   menuButton.addEventListener('click', function() {
     menuButton.classList.toggle('menu-open');
     mainNav.classList.toggle('open');
   });
+
+  // デフォルトのセクションを読み込む
+  loadSection('about');
 
   // ナビゲーションリンクのクリックイベント
   navLinks.forEach(link => {
@@ -24,42 +27,65 @@ document.addEventListener('DOMContentLoaded', function() {
       // クリックされたリンクのセクションIDを取得
       const sectionId = this.getAttribute('data-section');
       
-      // 現在表示されているすべてのセクションを非表示にする
-      sections.forEach(section => {
-        section.style.display = 'none';
-      });
-      
-      // 選択されたセクションのみを表示する
-      const targetSection = document.getElementById(sectionId);
-      if (targetSection) {
-        targetSection.style.display = 'block';
-      }
+      // セクションを読み込む
+      loadSection(sectionId);
       
       // URLのハッシュを更新
       window.location.hash = sectionId;
     });
   });
   
+  // セクションファイルを読み込む関数
+  function loadSection(sectionId) {
+    // 読み込み中表示
+    loadingIndicator.style.display = 'block';
+    
+    // ファイルを非同期に読み込む
+    fetch(`${sectionId}.html`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('ファイルの読み込みに失敗しました');
+        }
+        return response.text();
+      })
+      .then(html => {
+        // セクションのHTML以外の要素を削除
+        while (contentContainer.firstChild) {
+          if (contentContainer.firstChild.id === 'loading') {
+            break;
+          }
+          contentContainer.removeChild(contentContainer.firstChild);
+        }
+        
+        // 新しいコンテンツを挿入
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = html;
+        contentContainer.insertBefore(tempDiv.firstChild, loadingIndicator);
+        
+        // 読み込み中表示を非表示に
+        loadingIndicator.style.display = 'none';
+      })
+      .catch(error => {
+        console.error('エラー:', error);
+        contentContainer.innerHTML = `<div class="error-message"><p>コンテンツの読み込みに失敗しました: ${error.message}</p></div>`;
+        loadingIndicator.style.display = 'none';
+      });
+  }
+  
   // ページ読み込み時に、URLのハッシュに基づいてセクションを表示
-  function showSectionFromHash() {
+  function loadSectionFromHash() {
     const hash = window.location.hash.substring(1);
     if (hash) {
-      // すべてのセクションを非表示
-      sections.forEach(section => {
-        section.style.display = 'none';
-      });
-      
-      // ハッシュに一致するセクションを表示
-      const targetSection = document.getElementById(hash);
-      if (targetSection) {
-        targetSection.style.display = 'block';
-      }
+      loadSection(hash);
+    } else {
+      // ハッシュがない場合はデフォルトセクションを読み込む
+      loadSection('about');
     }
   }
   
-  // 初期表示
-  showSectionFromHash();
+  // URLハッシュが変更されたとき
+  window.addEventListener('hashchange', loadSectionFromHash);
   
-  // ハッシュが変更された時も対応
-  window.addEventListener('hashchange', showSectionFromHash);
+  // 初期表示時
+  loadSectionFromHash();
 }); 
