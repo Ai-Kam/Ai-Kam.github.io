@@ -16,6 +16,9 @@
       line-height: 1.6;
       color: #333;
       background-color: #f9f9f9;
+      min-height: 100vh; /* 最小高さを画面の高さに設定 */
+      display: flex; /* フレックスボックスレイアウトを適用 */
+      flex-direction: column; /* 縦方向に並べる */
     }
     a {
       color: #0F5474;
@@ -38,6 +41,7 @@
       padding: 0 20px;
       background: #fff;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      flex: 1; /* 残りのスペースを全て使用 */
     }
     section {
       padding: 20px;
@@ -58,39 +62,35 @@
       padding: 10px;
       background-color: #0F5474;
       color: #fff;
+      margin-top: auto; /* 自動マージンで下部に固定 */
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>上条 藍悠 のホームページ</h1>
-    <p> Aihisa Kamijo's Home Page</p>
+    <h1>あなたの名前</h1>
+    <p>シンプルで洗練されたプロフィールサイトへようこそ</p>
   </header>
 
   <div class="container">
     <section id="about">
-      <h2>自己紹介</h2>
-      <p>TBD</p>
-    </section>
-
-    <section id="career">
-      <h2>経歴</h2>
-      <p>TBD</p>
+      <h2>自己紹介s</h2>
+      <p>ここに自己紹介文を記載してください。経歴や趣味、目標など、あなたらしさが伝わる内容を盛り込んでください。</p>
     </section>
 
     <section id="portfolio">
       <h2>ポートフォリオ</h2>
-      <p>TBD</p>
+      <p>あなたの作品やプロジェクトを紹介するセクションです。画像やリンクを追加することで、より魅力的なページになります。</p>
     </section>
 
     <section id="contact">
       <h2>お問い合わせ</h2>
-      <p>TBD</p>
+      <p>メールアドレスやSNSのリンクなど、連絡先情報を記載してください。</p>
     </section>
   </div>
 
   <footer>
-    <p>&copy; 2025 Aihisa KAMIJO. All Rights Reserved.</p>
+    <p>&copy; 2025 あなたの名前. All Rights Reserved.</p>
   </footer>
 </body>
 </html>
