@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadingIndicator.style.display = 'block';
     
     // ファイルを非同期に読み込む
-    fetch(`${sectionId}.html`)
+    fetch(`source/${sectionId}.html`)
       .then(response => {
         if (!response.ok) {
           throw new Error('ファイルの読み込みに失敗しました');
