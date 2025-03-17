@@ -4,73 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AK's HomePage</title>
-  <style>
-    /* 全体のリセットと基本スタイル */
-    body, h1, h2, h3, p, ul, li {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      font-family: Arial, sans-serif;
-    }
-    body {
-      line-height: 1.6;
-      color: #333;
-      background-color: #f9f9f9;
-      min-height: 100vh; /* 最小高さを画面の高さに設定 */
-      display: flex; /* フレックスボックスレイアウトを適用 */
-      flex-direction: column; /* 縦方向に並べる */
-    }
-    a {
-      color: #0F5474;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    /* ヘッダー */
-    header {
-      background-color: #0F5474;
-      color: #fff;
-      padding: 20px;
-      text-align: center;
-    }
-    /* メインコンテンツ */
-    .container {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 0 20px;
-      background: #fff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      /* flex: 1; を削除してコンテナーが内容に合わせて高さを調整するようにする */
-    }
-    main {
-      flex: 1; /* コンテナーではなく、mainタグに適用してフッターを下に押し出す */
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    section {
-      padding: 20px;
-      border-bottom: 1px solid #eee;
-    }
-    section:last-child {
-      border-bottom: none;
-    }
-    /* セクション見出し */
-    h2 {
-      border-left: 4px solid #0F5474;
-      padding-left: 10px;
-      margin-bottom: 10px;
-    }
-    /* フッター */
-    footer {
-      text-align: center;
-      padding: 10px;
-      background-color: #0F5474;
-      color: #fff;
-      width: 100%;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
