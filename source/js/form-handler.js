@@ -7,11 +7,28 @@ export const FormHandler = {
    * 初期化
    */
   init() {
+    // フォーム要素を複数の方法で検索
     this.form = document.getElementById('contact-form');
+    
+    // フォームが見つからない場合は再度試行
     if (!this.form) {
-      console.error('contact-formが見つかりません');
-      return;
+      console.warn('contact-formが最初の検索で見つかりませんでした。セレクタで検索します。');
+      this.form = document.querySelector('form#contact-form');
+      
+      // それでも見つからない場合はフォームタグを探す
+      if (!this.form) {
+        console.warn('セレクタでも見つかりませんでした。すべてのフォームを検索します。');
+        const forms = document.querySelectorAll('form');
+        if (forms.length > 0) {
+          this.form = forms[0]; // 最初のフォームを使用
+          console.log('最初のフォームを使用します:', this.form);
+        } else {
+          console.error('フォーム要素が見つかりません。お問い合わせフォームは機能しません。');
+          return;
+        }
+      }
     }
+    
     console.log('フォームを初期化します', this.form);
 
     // フォーム送信イベントの設定
@@ -32,6 +49,8 @@ export const FormHandler = {
     if (checkbox) {
       checkbox.addEventListener('change', () => this.validateField(checkbox));
       console.log('チェックボックスイベントを設定しました');
+    } else {
+      console.warn('チェックボックスが見つかりません');
     }
     
     // 送信完了画面の「戻る」ボタンの設定
@@ -40,9 +59,17 @@ export const FormHandler = {
     // 初期化完了時にテスト用の送信ボタンイベントを手動で追加
     const submitButton = this.form.querySelector('button[type="submit"]');
     if (submitButton) {
-      submitButton.addEventListener('click', () => {
+      submitButton.addEventListener('click', (e) => {
         console.log('送信ボタンがクリックされました');
+        // フォームの送信を強制的に実行
+        if (this.form) {
+          console.log('フォーム送信を手動で実行します');
+          this.handleSubmit(e);
+        }
       });
+      console.log('送信ボタンイベントを設定しました:', submitButton);
+    } else {
+      console.warn('送信ボタンが見つかりません');
     }
     
     console.log('Form handler initialized');
