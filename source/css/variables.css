@@ -1,0 +1,49 @@
+/* カラー変数 - ライトモード（デフォルト） */
+:root {
+  --bg-color: #f9f9f9;
+  --content-bg-color: #fff;
+  --text-color: #333;
+  --header-bg-color: #0F5474;
+  --header-text-color: #fff;
+  --link-color: #0F5474;
+  --border-color: #eee;
+  --shadow-color: rgba(0,0,0,0.1);
+  --menu-bg-color: #0a3d54;
+  --menu-hover-color: rgba(255, 255, 255, 0.1);
+  --error-bg-color: #ffebee;
+  --error-text-color: #c62828;
+}
+
+/* ダークモード */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #121212;
+    --content-bg-color: #1e1e1e;
+    --text-color: #e0e0e0;
+    --header-bg-color: #0a3d54;
+    --header-text-color: #fff;
+    --link-color: #66c2ff;
+    --border-color: #333;
+    --shadow-color: rgba(0,0,0,0.3);
+    --menu-bg-color: #051c27;
+    --menu-hover-color: rgba(255, 255, 255, 0.2);
+    --error-bg-color: #441111;
+    --error-text-color: #ff5252;
+  }
+}
+
+/* ダークモード強制クラス */
+.dark-mode {
+  --bg-color: #121212;
+  --content-bg-color: #1e1e1e;
+  --text-color: #e0e0e0;
+  --header-bg-color: #0a3d54;
+  --header-text-color: #fff;
+  --link-color: #66c2ff;
+  --border-color: #333;
+  --shadow-color: rgba(0,0,0,0.3);
+  --menu-bg-color: #051c27;
+  --menu-hover-color: rgba(255, 255, 255, 0.2);
+  --error-bg-color: #441111;
+  --error-text-color: #ff5252;
+} 

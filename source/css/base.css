@@ -1,0 +1,42 @@
+/* 全体のリセットと基本スタイル */
+body, h1, h2, h3, p, ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* セクション見出し */
+h2 {
+  border-left: 4px solid var(--link-color);
+  padding-left: 10px;
+  margin-bottom: 10px;
+}
+
+/* フッター */
+footer {
+  text-align: center;
+  padding: 10px;
+  background-color: var(--header-bg-color);
+  color: var(--header-text-color);
+  width: 100%;
+} 
