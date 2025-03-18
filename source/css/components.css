@@ -100,13 +100,13 @@
 
 /* サブメニュー */
 .submenu {
-  display: none;
+  display: none !important;
   background-color: rgba(0, 0, 0, 0.2);
   padding-top: 0 !important;
 }
 
 .submenu.open {
-  display: block;
+  display: block !important;
 }
 
 .submenu li {

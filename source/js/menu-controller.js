@@ -8,8 +8,12 @@ const MenuController = {
     this.mainNav = document.getElementById('mainNav');
     this.navLinks = this.mainNav ? this.mainNav.querySelectorAll('a') : [];
     this.subMenuTriggers = this.mainNav ? this.mainNav.querySelectorAll('.has-submenu') : [];
+    this.subMenus = this.mainNav ? this.mainNav.querySelectorAll('.submenu') : [];
     
     if (!this.menuButton || !this.mainNav) return;
+    
+    // 初期状態ですべてのサブメニューを閉じる
+    this.closeAllSubMenus();
     
     // メニューボタンのクリックイベント
     this.menuButton.addEventListener('click', this.toggleMenu.bind(this));
@@ -25,6 +29,11 @@ const MenuController = {
   toggleMenu() {
     this.menuButton.classList.toggle('menu-open');
     this.mainNav.classList.toggle('open');
+    
+    // メインメニューを開くときは全サブメニューを閉じてリセット
+    if (this.mainNav.classList.contains('open')) {
+      this.closeAllSubMenus();
+    }
   },
   
   // メニューを閉じる
@@ -74,6 +83,21 @@ const MenuController = {
         });
       }
     });
+  },
+  
+  // すべてのサブメニューを閉じる
+  closeAllSubMenus() {
+    if (this.subMenus) {
+      this.subMenus.forEach(subMenu => {
+        subMenu.classList.remove('open');
+      });
+    }
+    
+    if (this.subMenuTriggers) {
+      this.subMenuTriggers.forEach(trigger => {
+        trigger.classList.remove('active');
+      });
+    }
   }
 };
 
