@@ -7,16 +7,37 @@ import { FormHandler } from './form-handler.js';
  * アプリケーションのメインクラス
  */
 const App = {
+  // 初期化済みフラグ
+  initialized: false,
+  
   // アプリケーションの初期化
   init() {
+    // 重複初期化を防止
+    if (this.initialized) {
+      return;
+    }
+    this.initialized = true;
+    
     // 各モジュールの初期化
-    console.log('アプリケーションの初期化を開始');
     ThemeSwitcher.init();
     MenuController.init();
+    
+    // コンテンツロード後にフォームハンドラーを初期化するようにする
+    ContentLoader.onContentLoaded = (path) => {
+      // コンテンツロード後の処理
+      if (path === 'contact.html') {
+        // お問い合わせページの場合のみフォームハンドラーを初期化
+        this.initFormHandler();
+      }
+    };
+    
+    // コンテンツローダーを初期化
     ContentLoader.init();
     
-    // フォームハンドラーの初期化は遅延して実行
-    this.initFormHandler();
+    // 初期表示時にお問い合わせページであればフォームハンドラーを初期化
+    if (window.location.hash === '#contact' || (document.getElementById('contact') && document.getElementById('contact-form'))) {
+      this.initFormHandler();
+    }
     
     // 初期化完了後、確実にサブメニューを閉じる
     setTimeout(() => {
@@ -24,60 +45,42 @@ const App = {
         MenuController.closeAllSubMenus();
       }
     }, 200);
-    
-    console.log('Application initialized');
   },
   
-  // フォームハンドラーの初期化を複数回試行する
+  // フォームハンドラーの初期化を実行
   initFormHandler() {
-    console.log('フォームハンドラーの初期化を準備');
-    
-    // まず1回目の試行
-    setTimeout(() => {
-      console.log('フォームハンドラー初期化: 1回目試行');
-      try {
-        FormHandler.init();
-      } catch (e) {
-        console.error('フォームハンドラー初期化エラー(1回目):', e);
-      }
-      
-      // フォームが見つからない場合は2回目を試行
-      if (!FormHandler.form) {
-        setTimeout(() => {
-          console.log('フォームハンドラー初期化: 2回目試行');
-          try {
-            FormHandler.init();
-          } catch (e) {
-            console.error('フォームハンドラー初期化エラー(2回目):', e);
-          }
+    // フォーム要素があるか確認
+    if (document.getElementById('contact-form')) {
+      // 少し遅延して実行（コンテンツが読み込まれるのを待つ）
+      setTimeout(() => {
+        try {
+          FormHandler.init();
+        } catch (e) {
+          console.error('フォームハンドラー初期化エラー:', e);
           
-          // 最後の試行
+          // 失敗した場合は再試行（1回のみ）
           if (!FormHandler.form) {
             setTimeout(() => {
-              console.log('フォームハンドラー初期化: 最終試行');
               try {
                 FormHandler.init();
               } catch (e) {
-                console.error('フォームハンドラー初期化エラー(最終):', e);
-                console.warn('お問い合わせフォームの初期化に失敗しました。ページを再読み込みしてください。');
+                console.error('フォームハンドラー最終試行エラー:', e);
               }
-            }, 2000);
+            }, 1500);
           }
-        }, 1000);
-      }
-    }, 500);
+        }
+      }, 500);
+    }
   }
 };
 
 // DOMが読み込まれた時にアプリケーションを初期化
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('DOMContentLoaded イベント発生');
   App.init();
 });
 
 // 既にDOMが読み込まれている場合のフォールバック
 if (document.readyState === 'complete' || document.readyState === 'interactive') {
-  console.log('DOM既に読み込み済み - 直接初期化');
   setTimeout(() => {
     App.init();
   }, 100);

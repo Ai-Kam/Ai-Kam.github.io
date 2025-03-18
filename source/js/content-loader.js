@@ -2,6 +2,9 @@
  * コンテンツの動的読み込み機能を管理するモジュール
  */
 const ContentLoader = {
+  // コンテンツ読み込み完了時のコールバック
+  onContentLoaded: null,
+
   // 初期化
   init() {
     this.contentContainer = document.getElementById('contentContainer');
@@ -97,6 +100,11 @@ const ContentLoader = {
         
         // 読み込み中表示を非表示に
         this.loadingIndicator.style.display = 'none';
+        
+        // コンテンツ読み込み完了後のコールバック
+        if (typeof this.onContentLoaded === 'function') {
+          this.onContentLoaded(filePath);
+        }
       })
       .catch(error => {
         console.error('エラー:', error);

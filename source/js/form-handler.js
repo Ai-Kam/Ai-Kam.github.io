@@ -3,41 +3,48 @@
  * Google Formsへの送信を管理します
  */
 export const FormHandler = {
+  // 初期化済みフラグ
+  initialized: false,
+  form: null,
+  
   /**
    * 初期化
    */
   init() {
-    // フォーム要素を複数の方法で検索
+    // 既に初期化済みの場合でも再初期化（ページ遷移後の対応）
+    this.initialized = false;
+    this.form = null;
+    
+    // フォーム要素を取得
     this.form = document.getElementById('contact-form');
     
-    // フォームが見つからない場合は再度試行
+    // フォームが見つからない場合は他の方法で検索
     if (!this.form) {
-      console.warn('contact-formが最初の検索で見つかりませんでした。セレクタで検索します。');
       this.form = document.querySelector('form#contact-form');
       
       // それでも見つからない場合はフォームタグを探す
       if (!this.form) {
-        console.warn('セレクタでも見つかりませんでした。すべてのフォームを検索します。');
         const forms = document.querySelectorAll('form');
         if (forms.length > 0) {
           this.form = forms[0]; // 最初のフォームを使用
-          console.log('最初のフォームを使用します:', this.form);
         } else {
-          console.error('フォーム要素が見つかりません。お問い合わせフォームは機能しません。');
+          console.warn('フォーム要素が見つかりません。お問い合わせフォームは機能しません。');
           return;
         }
       }
     }
-    
-    console.log('フォームを初期化します', this.form);
+
+    // 既に初期化済みの場合は処理を中断
+    if (this.initialized) {
+      return;
+    }
+    this.initialized = true;
 
     // フォーム送信イベントの設定
     this.form.addEventListener('submit', this.handleSubmit.bind(this));
-    console.log('送信イベントリスナーを設定しました');
 
     // 入力フィールドのバリデーションイベントを設定
     const inputs = this.form.querySelectorAll('input, select, textarea');
-    console.log(`${inputs.length}個の入力フィールドを検出`);
     
     inputs.forEach(input => {
       input.addEventListener('input', () => this.validateField(input));
@@ -48,39 +55,21 @@ export const FormHandler = {
     const checkbox = this.form.querySelector('input[type="checkbox"]');
     if (checkbox) {
       checkbox.addEventListener('change', () => this.validateField(checkbox));
-      console.log('チェックボックスイベントを設定しました');
-    } else {
-      console.warn('チェックボックスが見つかりません');
     }
     
     // 送信完了画面の「戻る」ボタンの設定
     this.setupBackButton();
     
-    // 初期化完了時にテスト用の送信ボタンイベントを手動で追加
+    // 送信ボタンのイベント設定（フォールバック）
     const submitButton = this.form.querySelector('button[type="submit"]');
     if (submitButton) {
       submitButton.addEventListener('click', (e) => {
-        console.log('送信ボタンがクリックされました');
         // フォームの送信を強制的に実行
-        if (this.form) {
-          console.log('フォーム送信を手動で実行します');
+        if (this.form && !e.defaultPrevented) {
           this.handleSubmit(e);
         }
       });
-      console.log('送信ボタンイベントを設定しました:', submitButton);
-    } else {
-      console.warn('送信ボタンが見つかりません');
     }
-    
-    console.log('Form handler initialized');
-    
-    // 初期化完了チェック
-    setTimeout(() => {
-      console.log('フォームハンドラーの初期化状態を確認:',
-        'フォーム要素:', !!this.form,
-        '送信ボタン:', !!submitButton
-      );
-    }, 1000);
   },
 
   /**
@@ -180,61 +169,44 @@ export const FormHandler = {
    */
   async handleSubmit(event) {
     event.preventDefault();
-    console.log('フォーム送信処理を開始');
 
     if (!this.validateForm()) {
-      console.log('バリデーションエラー: 送信を中止');
       return;
     }
 
     const submitButton = this.form.querySelector('button[type="submit"]');
     submitButton.disabled = true;
     submitButton.textContent = '送信中...';
-    console.log('送信ボタンを無効化');
 
     try {
-      console.log('Google Formsへの送信を準備');
       // GoogleフォームのURL（実際のIDに変更）
       const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdwJB07XtfXAZ8qY3mAZWMTg9OJE21B8wb8Bn5MWMmOzKefBA/formResponse';
       
       // フォームデータを収集
       const formData = new FormData(this.form);
-      console.log('フォームデータを収集', [...formData.entries()]);
       
-      // 直接fetchを使用して送信（シンプルに戻す）
-      console.log('成功メッセージを表示');
+      // 成功メッセージを表示
       this.showSuccessMessage();
       
-      console.log('Google Formsにデータを送信');
+      // Google Formsにデータを送信
       fetch(googleFormUrl, {
         method: 'POST',
         mode: 'no-cors',
         body: formData
-      })
-      .then(() => {
-        console.log('送信完了（レスポンスは取得できません）');
-      })
-      .catch(error => {
-        console.error('Fetch送信エラー:', error);
       });
       
       // フォームをリセット
       this.form.reset();
-      console.log('フォームをリセット');
 
     } catch (error) {
       console.error('フォーム送信エラー:', error);
       
       // エラー時も成功メッセージを表示（ユーザー体験向上のため）
       this.showSuccessMessage();
-      
-      // エラーログはコンソールにのみ出力
-      console.warn('エラーが発生しましたが、フォームの送信は完了した可能性があります');
     } finally {
       // ボタンの状態を戻す
       submitButton.disabled = false;
       submitButton.textContent = '送信する';
-      console.log('送信処理完了');
     }
   },
 
@@ -258,7 +230,22 @@ export const FormHandler = {
     const backButton = document.getElementById('back-button');
     if (backButton) {
       backButton.addEventListener('click', () => {
-        window.location.href = '/'; // トップページに戻る
+        // トップページに戻るのではなく、フォームをリセットして再表示
+        const formContainer = document.getElementById('contact-form-container');
+        const successMessage = document.getElementById('form-success');
+        
+        if (formContainer && successMessage) {
+          formContainer.style.display = 'block';
+          successMessage.classList.add('hidden');
+          
+          // フォームをリセット
+          if (this.form) {
+            this.form.reset();
+          }
+        } else {
+          // コンテナが見つからない場合はトップページに戻る
+          window.location.href = '/';
+        }
       });
     }
   }
