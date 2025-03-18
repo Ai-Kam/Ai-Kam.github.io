@@ -232,17 +232,26 @@
   padding: 20px;
   box-shadow: 0 2px 5px var(--shadow-color);
   transition: transform 0.3s, box-shadow 0.3s;
+  display: block;
+  text-decoration: none;
+  color: var(--text-color);
 }
 
 .subsection-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 5px 15px var(--shadow-color);
+  background-color: var(--card-hover-bg-color, var(--card-bg-color));
+  text-decoration: none;
 }
 
 .subsection-card h3 {
   margin-top: 0;
   margin-bottom: 15px;
   color: var(--heading-color);
+}
+
+.subsection-card p {
+  color: var(--text-color);
 }
 
 .read-more {
