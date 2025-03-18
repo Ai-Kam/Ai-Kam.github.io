@@ -1,6 +1,7 @@
 import ThemeSwitcher from './theme-switcher.js';
 import MenuController from './menu-controller.js';
 import ContentLoader from './content-loader.js';
+import { FormHandler } from './form-handler.js';
 
 /**
  * アプリケーションのメインクラス
@@ -12,6 +13,7 @@ const App = {
     ThemeSwitcher.init();
     MenuController.init();
     ContentLoader.init();
+    FormHandler.init();
     
     // 初期化完了後、確実にサブメニューを閉じる
     setTimeout(() => {

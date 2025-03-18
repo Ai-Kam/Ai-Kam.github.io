@@ -25,6 +25,11 @@ export const FormHandler = {
     if (checkbox) {
       checkbox.addEventListener('change', () => this.validateField(checkbox));
     }
+    
+    // 送信完了画面の「戻る」ボタンの設定
+    this.setupBackButton();
+    
+    console.log('Form handler initialized');
   },
 
   /**
@@ -148,8 +153,14 @@ export const FormHandler = {
       const queryString = Object.entries(data)
         .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
         .join('&');
+        
+      // 成功画面を表示してからリダイレクト
+      this.showSuccessMessage();
       
-      window.location.href = `${formUrl}?${queryString}&submit=Submit`;
+      // リダイレクトを遅延させる（ユーザーに成功メッセージを見せるため）
+      setTimeout(() => {
+        window.location.href = `${formUrl}?${queryString}&submit=Submit`;
+      }, 2000);
 
     } catch (error) {
       console.error('フォーム送信エラー:', error);
@@ -163,35 +174,23 @@ export const FormHandler = {
    * 成功メッセージを表示
    */
   showSuccessMessage() {
-    const successMessage = document.getElementById('success-message');
-    if (successMessage) {
-      successMessage.style.display = 'block';
-      this.form.style.display = 'none';
+    const formContainer = document.getElementById('contact-form-container');
+    const successMessage = document.getElementById('form-success');
+    
+    if (formContainer && successMessage) {
+      formContainer.style.display = 'none';
+      successMessage.classList.remove('hidden');
     }
   },
 
   /**
-   * フォームをリセット
+   * 「戻る」ボタンの設定
    */
-  resetForm() {
-    const backButton = document.querySelector('.back-button');
+  setupBackButton() {
+    const backButton = document.getElementById('back-button');
     if (backButton) {
       backButton.addEventListener('click', () => {
-        const successMessage = document.getElementById('success-message');
-        if (successMessage) {
-          successMessage.style.display = 'none';
-          this.form.style.display = 'block';
-        }
-        this.form.reset();
-        const errorMessages = this.form.querySelectorAll('.error-message');
-        errorMessages.forEach(error => {
-          error.textContent = '';
-          error.style.display = 'none';
-        });
-        const inputs = this.form.querySelectorAll('input, select, textarea');
-        inputs.forEach(input => {
-          input.classList.remove('error');
-        });
+        window.location.href = '/'; // トップページに戻る
       });
     }
   }
