@@ -139,28 +139,44 @@ export const FormHandler = {
     submitButton.textContent = '送信中...';
 
     try {
-      // Google FormsのURLを取得
-      const formUrl = this.form.action;
-      
+      // 成功メッセージを表示
+      this.showSuccessMessage();
+
       // フォームデータを収集
       const formData = new FormData(this.form);
       const data = {};
       formData.forEach((value, key) => {
         data[key] = value;
       });
-
-      // Google FormsのURLにリダイレクト
-      const queryString = Object.entries(data)
-        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-        .join('&');
-        
-      // 成功画面を表示してからリダイレクト
-      this.showSuccessMessage();
       
-      // リダイレクトを遅延させる（ユーザーに成功メッセージを見せるため）
+      // Google FormsのURLを構築
+      const formBaseUrl = this.form.action;
+      const formUrl = formBaseUrl.replace('/viewform', '/formResponse');
+      
+      // フォームデータでiframeを作成して送信（バックグラウンド処理）
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+      
+      // iframe内にフォームを作成して自動送信
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      iframeDoc.open();
+      iframeDoc.write(`
+        <form id="hidden-form" action="${formUrl}" method="POST">
+          ${Object.entries(data).map(([key, value]) => 
+            `<input type="hidden" name="${key}" value="${value.replace(/"/g, '&quot;')}">`
+          ).join('')}
+        </form>
+        <script>
+          document.getElementById('hidden-form').submit();
+        </script>
+      `);
+      iframeDoc.close();
+      
+      // 3秒後にiframeを削除
       setTimeout(() => {
-        window.location.href = `${formUrl}?${queryString}&submit=Submit`;
-      }, 2000);
+        document.body.removeChild(iframe);
+      }, 3000);
 
     } catch (error) {
       console.error('フォーム送信エラー:', error);

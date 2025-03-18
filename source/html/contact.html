@@ -5,7 +5,7 @@
   <!-- フォーム送信前の表示 -->
   <div id="contact-form-container">
     <!-- GoogleフォームのIDを実際のものに置き換えてください -->
-    <form id="contact-form" action="https://docs.google.com/forms/d/e/1FAIpQLSdwJB07XtfXAZ8qY3mAZWMTg9OJE21B8wb8Bn5MWMmOzKefBA/viewform" method="GET">
+    <form id="contact-form" action="https://docs.google.com/forms/d/e/1FAIpQLSdwJB07XtfXAZ8qY3mAZWMTg9OJE21B8wb8Bn5MWMmOzKefBA/formResponse" method="POST">
       <div class="form-group">
         <label for="name">お名前 <span class="required">*</span></label>
         <!-- entry.xxxxxxxx はGoogleフォームの各フィールドIDに置き換えてください -->
@@ -42,7 +42,7 @@
       </div>
 
       <div class="form-group checkbox-group">
-        <input type="checkbox" id="privacy-policy" name="1720419934" required>
+        <input type="checkbox" id="privacy-policy" name="entry.1720419934" required>
         <label for="privacy-policy">個人情報の取り扱いについて同意します <span class="required">*</span></label>
         <div class="error-message" id="privacy-policy-error"></div>
       </div>
