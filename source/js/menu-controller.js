@@ -23,6 +23,13 @@ const MenuController = {
     
     // メニュー項目のクリックイベント設定
     this.setupMenuItemClicks();
+    
+    // ページ完全読み込み後にもサブメニューを確実に閉じる
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        this.closeAllSubMenus();
+      }, 100);
+    });
   },
   
   // メニュー開閉の切り替え

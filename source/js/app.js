@@ -13,6 +13,13 @@ const App = {
     MenuController.init();
     ContentLoader.init();
     
+    // 初期化完了後、確実にサブメニューを閉じる
+    setTimeout(() => {
+      if (MenuController && typeof MenuController.closeAllSubMenus === 'function') {
+        MenuController.closeAllSubMenus();
+      }
+    }, 200);
+    
     console.log('Application initialized');
   }
 };
