@@ -14,9 +14,10 @@
   --error-text-color: #c62828;
 }
 
-/* ダークモード */
+/* システムのダークモード設定 - ユーザー設定がない場合のみ有効 */
 @media (prefers-color-scheme: dark) {
-  :root, body {
+  :root:not(.light-mode), 
+  body:not(.light-mode) {
     --bg-color: #121212;
     --content-bg-color: #1e1e1e;
     --text-color: #e0e0e0;
@@ -32,8 +33,9 @@
   }
 }
 
-/* ダークモード強制クラス */
-html.dark-mode, body.dark-mode {
+/* ユーザーが選択したダークモード - 常にシステム設定より優先 */
+html.dark-mode, 
+body.dark-mode {
   --bg-color: #121212;
   --content-bg-color: #1e1e1e;
   --text-color: #e0e0e0;
@@ -46,4 +48,21 @@ html.dark-mode, body.dark-mode {
   --menu-hover-color: rgba(255, 255, 255, 0.2);
   --error-bg-color: #441111;
   --error-text-color: #ff5252;
+}
+
+/* ユーザーが選択したライトモード - 常にシステム設定より優先 */
+html.light-mode,
+body.light-mode {
+  --bg-color: #f9f9f9;
+  --content-bg-color: #fff;
+  --text-color: #333;
+  --header-bg-color: #0F5474;
+  --header-text-color: #fff;
+  --link-color: #0F5474;
+  --border-color: #eee;
+  --shadow-color: rgba(0,0,0,0.1);
+  --menu-bg-color: #0a3d54;
+  --menu-hover-color: rgba(255, 255, 255, 0.1);
+  --error-bg-color: #ffebee;
+  --error-text-color: #c62828;
 } 

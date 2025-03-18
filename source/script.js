@@ -7,42 +7,60 @@ document.addEventListener('DOMContentLoaded', function() {
   const loadingIndicator = document.getElementById('loading');
   const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
 
-  // ローカルストレージからテーマ設定を取得
-  const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+  // テーマ切り替え関数
+  function switchTheme(e) {
+    if (e.target.checked) {
+      // ダークモードに切り替え
+      document.documentElement.classList.add('dark-mode');
+      document.documentElement.classList.remove('light-mode');
+      document.body.classList.add('dark-mode');
+      document.body.classList.remove('light-mode');
+      localStorage.setItem('theme', 'dark-mode');
+    } else {
+      // ライトモードに切り替え
+      document.documentElement.classList.remove('dark-mode');
+      document.documentElement.classList.add('light-mode');
+      document.body.classList.remove('dark-mode');
+      document.body.classList.add('light-mode');
+      localStorage.setItem('theme', 'light-mode');
+    }    
+  }
 
-  // 保存されたテーマがあれば適用
-  if (currentTheme) {
-    document.documentElement.setAttribute('class', currentTheme);
-    document.body.setAttribute('class', currentTheme);
-    
-    // ダークモードの場合はスイッチをONにする
-    if (currentTheme === 'dark-mode') {
+  // ローカルストレージからユーザー設定を確認
+  const userTheme = localStorage.getItem('theme');
+  
+  if (userTheme) {
+    // ローカルストレージに保存されたユーザー設定があればそれを優先
+    if (userTheme === 'dark-mode') {
+      document.documentElement.classList.add('dark-mode');
+      document.documentElement.classList.remove('light-mode');
+      document.body.classList.add('dark-mode');
+      document.body.classList.remove('light-mode');
       toggleSwitch.checked = true;
+    } else {
+      document.documentElement.classList.remove('dark-mode');
+      document.documentElement.classList.add('light-mode');
+      document.body.classList.remove('dark-mode');
+      document.body.classList.add('light-mode');
+      toggleSwitch.checked = false;
     }
   } else {
-    // システム設定のダークモードを検出
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    // ユーザー設定がない場合はシステム設定を利用
+    const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (prefersDarkMode) {
       document.documentElement.classList.add('dark-mode');
       document.body.classList.add('dark-mode');
       toggleSwitch.checked = true;
+    } else {
+      document.documentElement.classList.add('light-mode');
+      document.body.classList.add('light-mode');
+      toggleSwitch.checked = false;
     }
   }
 
   // テーマスイッチのイベントリスナー
-  toggleSwitch.addEventListener('change', switchTheme, false);
-
-  // テーマ切り替え関数
-  function switchTheme(e) {
-    if (e.target.checked) {
-      document.documentElement.classList.add('dark-mode');
-      document.body.classList.add('dark-mode');
-      localStorage.setItem('theme', 'dark-mode');
-    } else {
-      document.documentElement.classList.remove('dark-mode');
-      document.body.classList.remove('dark-mode');
-      localStorage.setItem('theme', 'light-mode');
-    }    
-  }
+  toggleSwitch.addEventListener('change', switchTheme);
 
   // メニューボタンのクリックイベント
   menuButton.addEventListener('click', function() {
