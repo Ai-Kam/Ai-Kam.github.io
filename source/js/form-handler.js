@@ -214,10 +214,24 @@ export const FormHandler = {
    * 成功メッセージを表示
    */
   showSuccessMessage() {
+    const contactSection = document.getElementById('contact');
     const formContainer = document.getElementById('contact-form-container');
     const successMessage = document.getElementById('form-success');
     
-    if (formContainer && successMessage) {
+    if (contactSection && formContainer && successMessage) {
+      // セクション内の見出しと説明文を非表示
+      const sectionTitle = contactSection.querySelector('h2');
+      const sectionDescription = contactSection.querySelector('p');
+      
+      if (sectionTitle) {
+        sectionTitle.style.display = 'none';
+      }
+      
+      if (sectionDescription) {
+        sectionDescription.style.display = 'none';
+      }
+      
+      // フォーム非表示、成功メッセージ表示
       formContainer.style.display = 'none';
       successMessage.classList.remove('hidden');
     }
@@ -230,22 +244,8 @@ export const FormHandler = {
     const backButton = document.getElementById('back-button');
     if (backButton) {
       backButton.addEventListener('click', () => {
-        // トップページに戻るのではなく、フォームをリセットして再表示
-        const formContainer = document.getElementById('contact-form-container');
-        const successMessage = document.getElementById('form-success');
-        
-        if (formContainer && successMessage) {
-          formContainer.style.display = 'block';
-          successMessage.classList.add('hidden');
-          
-          // フォームをリセット
-          if (this.form) {
-            this.form.reset();
-          }
-        } else {
-          // コンテナが見つからない場合はトップページに戻る
-          window.location.href = '/';
-        }
+        // トップページに戻る
+        window.location.hash = 'top';
       });
     }
   }
