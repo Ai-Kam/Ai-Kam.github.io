@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // 保存されたテーマがあれば適用
   if (currentTheme) {
     document.documentElement.setAttribute('class', currentTheme);
+    document.body.setAttribute('class', currentTheme);
     
     // ダークモードの場合はスイッチをONにする
     if (currentTheme === 'dark-mode') {
@@ -22,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // システム設定のダークモードを検出
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       document.documentElement.classList.add('dark-mode');
+      document.body.classList.add('dark-mode');
       toggleSwitch.checked = true;
     }
   }
@@ -33,9 +35,11 @@ document.addEventListener('DOMContentLoaded', function() {
   function switchTheme(e) {
     if (e.target.checked) {
       document.documentElement.classList.add('dark-mode');
+      document.body.classList.add('dark-mode');
       localStorage.setItem('theme', 'dark-mode');
     } else {
       document.documentElement.classList.remove('dark-mode');
+      document.body.classList.remove('dark-mode');
       localStorage.setItem('theme', 'light-mode');
     }    
   }

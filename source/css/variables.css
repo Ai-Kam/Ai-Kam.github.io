@@ -1,5 +1,5 @@
 /* カラー変数 - ライトモード（デフォルト） */
-:root {
+:root, body {
   --bg-color: #f9f9f9;
   --content-bg-color: #fff;
   --text-color: #333;
@@ -16,7 +16,7 @@
 
 /* ダークモード */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root, body {
     --bg-color: #121212;
     --content-bg-color: #1e1e1e;
     --text-color: #e0e0e0;
@@ -33,7 +33,7 @@
 }
 
 /* ダークモード強制クラス */
-.dark-mode {
+html.dark-mode, body.dark-mode {
   --bg-color: #121212;
   --content-bg-color: #1e1e1e;
   --text-color: #e0e0e0;

@@ -1,14 +1,14 @@
-/* CSS変数とテーマ */
-@import 'variables.css';
+/* CSS変数とテーマ - 最初に読み込み */
+@import url('./variables.css');
 
 /* 基本スタイル */
-@import 'base.css';
+@import url('./base.css');
 
 /* レイアウト */
-@import 'layout.css';
+@import url('./layout.css');
 
 /* コンポーネント */
-@import 'components.css';
+@import url('./components.css');
 
 /* テーマ切り替えスイッチ */
-@import 'theme-switch.css'; 
+@import url('./theme-switch.css'); 
