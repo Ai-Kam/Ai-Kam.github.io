@@ -5,6 +5,40 @@ document.addEventListener('DOMContentLoaded', function() {
   const navLinks = mainNav.querySelectorAll('a');
   const contentContainer = document.getElementById('contentContainer');
   const loadingIndicator = document.getElementById('loading');
+  const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+
+  // ローカルストレージからテーマ設定を取得
+  const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+
+  // 保存されたテーマがあれば適用
+  if (currentTheme) {
+    document.documentElement.setAttribute('class', currentTheme);
+    
+    // ダークモードの場合はスイッチをONにする
+    if (currentTheme === 'dark-mode') {
+      toggleSwitch.checked = true;
+    }
+  } else {
+    // システム設定のダークモードを検出
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.classList.add('dark-mode');
+      toggleSwitch.checked = true;
+    }
+  }
+
+  // テーマスイッチのイベントリスナー
+  toggleSwitch.addEventListener('change', switchTheme, false);
+
+  // テーマ切り替え関数
+  function switchTheme(e) {
+    if (e.target.checked) {
+      document.documentElement.classList.add('dark-mode');
+      localStorage.setItem('theme', 'dark-mode');
+    } else {
+      document.documentElement.classList.remove('dark-mode');
+      localStorage.setItem('theme', 'light-mode');
+    }    
+  }
 
   // メニューボタンのクリックイベント
   menuButton.addEventListener('click', function() {

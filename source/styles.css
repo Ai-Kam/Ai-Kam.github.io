@@ -1,3 +1,124 @@
+/* カラー変数 - ライトモード（デフォルト） */
+:root {
+  --bg-color: #f9f9f9;
+  --content-bg-color: #fff;
+  --text-color: #333;
+  --header-bg-color: #0F5474;
+  --header-text-color: #fff;
+  --link-color: #0F5474;
+  --border-color: #eee;
+  --shadow-color: rgba(0,0,0,0.1);
+  --menu-bg-color: #0a3d54;
+  --menu-hover-color: rgba(255, 255, 255, 0.1);
+  --error-bg-color: #ffebee;
+  --error-text-color: #c62828;
+}
+
+/* ダークモード */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #121212;
+    --content-bg-color: #1e1e1e;
+    --text-color: #e0e0e0;
+    --header-bg-color: #0a3d54;
+    --header-text-color: #fff;
+    --link-color: #66c2ff;
+    --border-color: #333;
+    --shadow-color: rgba(0,0,0,0.3);
+    --menu-bg-color: #051c27;
+    --menu-hover-color: rgba(255, 255, 255, 0.2);
+    --error-bg-color: #441111;
+    --error-text-color: #ff5252;
+  }
+}
+
+/* ダークモード強制クラス */
+.dark-mode {
+  --bg-color: #121212;
+  --content-bg-color: #1e1e1e;
+  --text-color: #e0e0e0;
+  --header-bg-color: #0a3d54;
+  --header-text-color: #fff;
+  --link-color: #66c2ff;
+  --border-color: #333;
+  --shadow-color: rgba(0,0,0,0.3);
+  --menu-bg-color: #051c27;
+  --menu-hover-color: rgba(255, 255, 255, 0.2);
+  --error-bg-color: #441111;
+  --error-text-color: #ff5252;
+}
+
+/* ダークモードスイッチ */
+.theme-switch-wrapper {
+  position: absolute;
+  top: 20px;
+  right: 70px;
+  display: flex;
+  align-items: center;
+}
+
+.theme-switch {
+  display: inline-block;
+  position: relative;
+  width: 50px;
+  height: 24px;
+}
+
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 24px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #66c2ff;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.slider-icons {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 6px;
+  box-sizing: border-box;
+  color: white;
+  font-size: 12px;
+}
+
+.slider-icons i:last-child {
+  opacity: 0.7;
+}
+
 /* 全体のリセットと基本スタイル */
 body, h1, h2, h3, p, ul, li {
   margin: 0;
@@ -7,14 +128,15 @@ body, h1, h2, h3, p, ul, li {
 }
 body {
   line-height: 1.6;
-  color: #333;
-  background-color: #f9f9f9;
+  color: var(--text-color);
+  background-color: var(--bg-color);
   min-height: 100vh; /* 最小高さを画面の高さに設定 */
   display: flex; /* フレックスボックスレイアウトを適用 */
   flex-direction: column; /* 縦方向に並べる */
+  transition: background-color 0.3s, color 0.3s;
 }
 a {
-  color: #0F5474;
+  color: var(--link-color);
   text-decoration: none;
 }
 a:hover {
@@ -22,8 +144,8 @@ a:hover {
 }
 /* ヘッダー */
 header {
-  background-color: #0F5474;
-  color: #fff;
+  background-color: var(--header-bg-color);
+  color: var(--header-text-color);
   padding: 20px;
   text-align: center;
   position: relative;
@@ -92,10 +214,10 @@ header {
   right: -300px;
   width: 300px;
   height: 100%;
-  background-color: #0a3d54;
+  background-color: var(--menu-bg-color);
   z-index: 999;
   transition: right 0.3s ease-in-out;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: -2px 0 5px var(--shadow-color);
 }
 
 .main-nav.open {
@@ -118,7 +240,7 @@ header {
 }
 
 .main-nav a:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--menu-hover-color);
   text-decoration: none;
 }
 
@@ -128,9 +250,10 @@ header {
   max-width: 1200px; /* 大きすぎない最大幅 */
   margin: 40px auto;
   padding: 0 20px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  background: var(--content-bg-color);
+  box-shadow: 0 2px 8px var(--shadow-color);
   /* flex: 1; を削除してコンテナーが内容に合わせて高さを調整するようにする */
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 main {
   flex: 1; /* コンテナーではなく、mainタグに適用してフッターを下に押し出す */
@@ -147,7 +270,7 @@ section:last-child {
 }
 /* セクション見出し */
 h2 {
-  border-left: 4px solid #0F5474;
+  border-left: 4px solid var(--link-color);
   padding-left: 10px;
   margin-bottom: 10px;
 }
@@ -155,8 +278,8 @@ h2 {
 footer {
   text-align: center;
   padding: 10px;
-  background-color: #0F5474;
-  color: #fff;
+  background-color: var(--header-bg-color);
+  color: var(--header-text-color);
   width: 100%;
 }
 
@@ -164,14 +287,14 @@ footer {
 .loading-indicator {
   text-align: center;
   padding: 20px;
-  color: #666;
+  color: var(--text-color);
 }
 
 .error-message {
-  background-color: #ffebee;
-  color: #c62828;
+  background-color: var(--error-bg-color);
+  color: var(--error-text-color);
   padding: 15px;
   margin: 15px 0;
   border-radius: 4px;
-  border-left: 4px solid #c62828;
+  border-left: 4px solid var(--error-text-color);
 } 
