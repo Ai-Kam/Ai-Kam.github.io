@@ -54,6 +54,7 @@ const MenuController = {
     this.subMenuTriggers.forEach(trigger => {
       trigger.addEventListener('click', (e) => {
         e.preventDefault();
+        e.stopPropagation(); // イベントの伝播を防止
         
         // クリックされたトリガーの状態を切り替え
         trigger.classList.toggle('active');
@@ -62,9 +63,37 @@ const MenuController = {
         const subMenu = trigger.nextElementSibling;
         if (subMenu && subMenu.classList.contains('submenu')) {
           subMenu.classList.toggle('open');
+          
+          // 他のサブメニューを閉じる（同レベルのメニューのみ）
+          const siblings = this.getSiblings(subMenu);
+          siblings.forEach(sibling => {
+            if (sibling.classList.contains('submenu')) {
+              sibling.classList.remove('open');
+              // 対応するトリガーも非アクティブに
+              const siblingTrigger = sibling.previousElementSibling;
+              if (siblingTrigger && siblingTrigger.classList.contains('has-submenu')) {
+                siblingTrigger.classList.remove('active');
+              }
+            }
+          });
         }
       });
     });
+  },
+  
+  // 同レベルの要素を取得するヘルパー関数
+  getSiblings(element) {
+    const siblings = [];
+    let sibling = element.parentNode.firstChild;
+    
+    while (sibling) {
+      if (sibling.nodeType === 1 && sibling !== element) {
+        siblings.push(sibling);
+      }
+      sibling = sibling.nextSibling;
+    }
+    
+    return siblings;
   },
   
   // メニュー項目のクリックイベント設定
