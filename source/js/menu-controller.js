@@ -7,7 +7,7 @@ const MenuController = {
     this.menuButton = document.getElementById('menuButton');
     this.mainNav = document.getElementById('mainNav');
     this.navLinks = this.mainNav ? this.mainNav.querySelectorAll('a') : [];
-    this.subMenuTriggers = this.mainNav ? this.mainNav.querySelectorAll('.has-submenu') : [];
+    this.subMenuToggles = this.mainNav ? this.mainNav.querySelectorAll('.submenu-toggle') : [];
     this.subMenus = this.mainNav ? this.mainNav.querySelectorAll('.submenu') : [];
     
     if (!this.menuButton || !this.mainNav) return;
@@ -18,8 +18,8 @@ const MenuController = {
     // メニューボタンのクリックイベント
     this.menuButton.addEventListener('click', this.toggleMenu.bind(this));
     
-    // サブメニュートリガーのイベント設定
-    this.setupSubMenus();
+    // サブメニュートグルボタンのイベント設定
+    this.setupSubMenuToggles();
     
     // メニュー項目のクリックイベント設定
     this.setupMenuItemClicks();
@@ -49,33 +49,39 @@ const MenuController = {
     this.mainNav.classList.remove('open');
   },
   
-  // サブメニューのセットアップ
-  setupSubMenus() {
-    this.subMenuTriggers.forEach(trigger => {
-      trigger.addEventListener('click', (e) => {
+  // サブメニュートグルボタンのセットアップ
+  setupSubMenuToggles() {
+    this.subMenuToggles.forEach(toggle => {
+      toggle.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation(); // イベントの伝播を防止
         
-        // クリックされたトリガーの状態を切り替え
-        trigger.classList.toggle('active');
+        // トグルボタンの状態を切り替え
+        toggle.classList.toggle('active');
         
-        // 隣接するサブメニューを取得して表示/非表示を切り替え
-        const subMenu = trigger.nextElementSibling;
-        if (subMenu && subMenu.classList.contains('submenu')) {
-          subMenu.classList.toggle('open');
+        // 親要素のli（has-submenuクラスを持つ）を取得
+        const parentLi = toggle.closest('.has-submenu');
+        if (parentLi) {
+          parentLi.classList.toggle('active');
           
-          // 他のサブメニューを閉じる（同レベルのメニューのみ）
-          const siblings = this.getSiblings(subMenu);
-          siblings.forEach(sibling => {
-            if (sibling.classList.contains('submenu')) {
-              sibling.classList.remove('open');
-              // 対応するトリガーも非アクティブに
-              const siblingTrigger = sibling.previousElementSibling;
-              if (siblingTrigger && siblingTrigger.classList.contains('has-submenu')) {
-                siblingTrigger.classList.remove('active');
+          // 隣接するサブメニューを取得して表示/非表示を切り替え
+          const subMenu = parentLi.querySelector('.submenu');
+          if (subMenu) {
+            subMenu.classList.toggle('open');
+            
+            // 同レベルの他のサブメニューを閉じる
+            const siblingMenuItems = this.getSiblings(parentLi);
+            siblingMenuItems.forEach(sibling => {
+              if (sibling.classList.contains('has-submenu')) {
+                sibling.classList.remove('active');
+                const siblingToggle = sibling.querySelector('.submenu-toggle');
+                const siblingSubMenu = sibling.querySelector('.submenu');
+                
+                if (siblingToggle) siblingToggle.classList.remove('active');
+                if (siblingSubMenu) siblingSubMenu.classList.remove('open');
               }
-            }
-          });
+            });
+          }
         }
       });
     });
@@ -99,25 +105,29 @@ const MenuController = {
   // メニュー項目のクリックイベント設定
   setupMenuItemClicks() {
     this.navLinks.forEach(link => {
-      // サブメニュートリガーではない通常のリンクのみに適用
-      if (!link.classList.contains('has-submenu')) {
-        link.addEventListener('click', (e) => {
-          // メニューを閉じる
+      link.addEventListener('click', (e) => {
+        // サブメニュートグルボタンのクリックは別処理
+        if (link.parentNode.classList.contains('submenu-toggle')) {
+          return;
+        }
+        
+        // サブメニューのリンクの場合はメニューを閉じる
+        if (!link.classList.contains('has-submenu')) {
           this.closeMenu();
+        }
+        
+        // セクションIDを持つリンクのみイベント発火
+        const sectionId = link.getAttribute('data-section');
+        if (sectionId) {
+          const event = new CustomEvent('sectionSelected', { 
+            detail: { sectionId }
+          });
+          document.dispatchEvent(event);
           
-          // セクションIDを持つリンクのみイベント発火
-          const sectionId = link.getAttribute('data-section');
-          if (sectionId) {
-            const event = new CustomEvent('sectionSelected', { 
-              detail: { sectionId }
-            });
-            document.dispatchEvent(event);
-            
-            // デフォルトの挙動を防止
-            e.preventDefault();
-          }
-        });
-      }
+          // デフォルトの挙動を防止
+          e.preventDefault();
+        }
+      });
     });
   },
   
@@ -129,11 +139,15 @@ const MenuController = {
       });
     }
     
-    if (this.subMenuTriggers) {
-      this.subMenuTriggers.forEach(trigger => {
-        trigger.classList.remove('active');
-      });
-    }
+    const activeMenuItems = this.mainNav ? this.mainNav.querySelectorAll('.has-submenu.active') : [];
+    activeMenuItems.forEach(item => {
+      item.classList.remove('active');
+    });
+    
+    const activeToggles = this.mainNav ? this.mainNav.querySelectorAll('.submenu-toggle.active') : [];
+    activeToggles.forEach(toggle => {
+      toggle.classList.remove('active');
+    });
   }
 };
 

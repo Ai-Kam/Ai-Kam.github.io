@@ -133,16 +133,60 @@
 }
 
 /* サブメニューの展開アイコン */
-.has-submenu::after {
-  content: '+';
+.has-submenu {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.submenu-toggle {
   position: absolute;
-  right: 20px;
-  top: 15px;
+  right: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  z-index: 2;
+}
+
+.submenu-toggle::after {
+  content: '+';
+  font-size: 18px;
+  color: white;
   transition: transform 0.3s;
 }
 
-.has-submenu.active::after {
+.submenu-toggle.active::after {
   content: '-';
+}
+
+/* サブメニューのリンク部分 */
+.menu-link {
+  display: block;
+  width: calc(100% - 46px);
+  padding: 15px 20px;
+  color: white;
+  transition: background-color 0.3s;
+  text-decoration: none;
+}
+
+.menu-link:hover {
+  background-color: var(--menu-hover-color);
+  text-decoration: none;
+}
+
+/* 既存のhas-submenu::afterを削除 */
+.has-submenu::after {
+  content: none;
+}
+
+.has-submenu.active::after {
+  content: none;
 }
 
 /* トップページのセクションカード */

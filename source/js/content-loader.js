@@ -34,13 +34,47 @@ const ContentLoader = {
     }
   },
   
+  // セクションIDからファイルパスを解決する
+  resolveFilePath(sectionId) {
+    // セクションIDに基づいて適切なファイルパスを返す
+    const pathMap = {
+      // トップレベル
+      'top': 'top.html',
+      'contact': 'contact.html',
+      
+      // プロフィール関連
+      'about': 'about/index.html',
+      'about-introduction': 'about/introduction.html',
+      'career': 'about/career.html',
+      
+      // 作品・活動関連
+      'portfolio': 'portfolio/index.html',
+      'portfolio-detail': 'portfolio/detail.html',
+      'projects': 'portfolio/projects.html',
+      
+      // 資料・備忘録関連
+      'notes': 'notes/index.html',
+      'notes-xx': 'notes/xx/index.html',
+      'notes-xx-1': 'notes/xx/part1.html',
+      'notes-xx-2': 'notes/xx/part2.html',
+      'notes-yy': 'notes/yy/index.html',
+      'notes-yy-1': 'notes/yy/part1.html',
+      'notes-yy-2': 'notes/yy/part2.html'
+    };
+    
+    return pathMap[sectionId] || `${sectionId}.html`;
+  },
+  
   // セクション読み込み関数
   loadSection(sectionId) {
     // 読み込み中表示
     this.loadingIndicator.style.display = 'block';
     
+    // ファイルパスを解決
+    const filePath = this.resolveFilePath(sectionId);
+    
     // ファイルを非同期に読み込む
-    fetch(`source/html/${sectionId}.html`)
+    fetch(`source/html/${filePath}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('ファイルの読み込みに失敗しました');
