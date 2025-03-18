@@ -73,10 +73,17 @@
 
 .main-nav ul {
   padding-top: 70px;
+  margin: 0;
+  padding-left: 0;
+}
+
+.main-nav > ul {
+  padding-top: 70px;
 }
 
 .main-nav li {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
 }
 
 .main-nav a {
@@ -89,6 +96,39 @@
 .main-nav a:hover {
   background-color: var(--menu-hover-color);
   text-decoration: none;
+}
+
+/* サブメニュー */
+.submenu {
+  display: none;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding-top: 0 !important;
+}
+
+.submenu.open {
+  display: block;
+}
+
+.submenu li {
+  border-bottom: none;
+}
+
+.submenu a {
+  padding-left: 40px;
+  font-size: 0.95em;
+}
+
+/* サブメニューの展開アイコン */
+.has-submenu::after {
+  content: '+';
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  transition: transform 0.3s;
+}
+
+.has-submenu.active::after {
+  content: '-';
 }
 
 /* 読み込み中インジケータ */
