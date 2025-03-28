@@ -1,0 +1,82 @@
+<section id="contact">
+  <h2>お問い合わせ</h2>
+  <p>以下のフォームからお気軽にお問い合わせください。</p>
+
+  <!-- フォーム送信前の表示 -->
+  <div id="contact-form-container">
+    <!-- JavaScriptで処理するためactionを空に設定 -->
+    <form id="contact-form" action="javascript:void(0);" method="POST" novalidate>
+      <div class="form-group">
+        <label for="name">お名前 <span class="required">*</span></label>
+        <!-- entry.xxxxxxxx はGoogleフォームの各フィールドIDに置き換えてください -->
+        <input type="text" id="name" name="entry.1857089782" required>
+        <div class="error-message" id="name-error"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">メールアドレス <span class="required">*</span></label>
+        <input type="email" id="email" name="entry.140834897" required>
+        <div class="error-message" id="email-error"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="subject">件名 <span class="required">*</span></label>
+        <input type="text" id="subject" name="entry.1805653164" required>
+        <div class="error-message" id="subject-error"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="inquiry-type">お問い合わせ種別</label>
+        <select id="inquiry-type" name="entry.1662929647">
+          <option value="一般的なお問い合わせ">一般的なお問い合わせ</option>
+          <option value="お仕事の依頼">お仕事の依頼</option>
+          <option value="サイトへのご意見・ご感想">サイトへのご意見・ご感想</option>
+          <option value="その他">その他</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="message">お問い合わせ内容 <span class="required">*</span></label>
+        <textarea id="message" name="entry.1876869471" rows="6" required></textarea>
+        <div class="error-message" id="message-error"></div>
+      </div>
+      <!-- 個人情報の取り扱いについての説明 -->
+      <div class="privacy-policy-explanation">
+        <h4>個人情報の取り扱いについて</h4>
+        <p>当サイトでは、お問い合わせいただいた個人情報を以下の目的で利用させていただきます：</p>
+        <ol>
+          <li>お問い合わせへの回答</li>
+          <li>サイトの改善や新機能の開発</li>
+          <li>法令に基づく対応</li>
+        </ol>
+        <p>個人情報の取り扱いについて、以下の点にご同意いただく必要があります：</p>
+        <ul>
+          <li>入力いただいた個人情報は、上記の目的以外には使用いたしません</li>
+          <li>入力いただいた個人情報は、Google フォームを介して収集されます</li>
+          <li>個人情報は、法令に基づく場合を除き、第三者への提供は行いません</li>
+          <li>個人情報は、適切な安全管理措置を講じて保護いたします</li>
+          <li>個人情報の開示、訂正、削除等のご要請は、お問い合わせフォームよりご連絡ください</li>
+        </ul>
+      </div>
+
+      <div class="form-group checkbox-group">
+        <input type="checkbox" id="privacy-policy" name="entry.1720419934" value="上記個人情報の取り扱いについて同意します。" required>
+        <label for="privacy-policy">個人情報の取り扱いについて同意します <span class="required">*</span></label>
+        <div class="error-message" id="privacy-policy-error"></div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="submit-button">送信する</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- 送信完了後の表示 -->
+  <div id="form-success" class="hidden">
+    <div class="success-message">
+      <h3>お問い合わせありがとうございます</h3>
+      <p>メッセージを受け付けました。内容を確認の上、折り返しご連絡いたします。</p>
+      <button id="back-button" class="back-button">トップに戻る</button>
+    </div>
+  </div>
+</section> 

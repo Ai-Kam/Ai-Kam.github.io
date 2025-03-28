@@ -4,102 +4,84 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AK's HomePage</title>
-  <style>
-    /* 全体のリセットと基本スタイル */
-    body, h1, h2, h3, p, ul, li {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      font-family: Arial, sans-serif;
-    }
-    body {
-      line-height: 1.6;
-      color: #333;
-      background-color: #f9f9f9;
-      min-height: 100vh; /* 最小高さを画面の高さに設定 */
-      display: flex; /* フレックスボックスレイアウトを適用 */
-      flex-direction: column; /* 縦方向に並べる */
-    }
-    a {
-      color: #0F5474;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    /* ヘッダー */
-    header {
-      background-color: #0F5474;
-      color: #fff;
-      padding: 20px;
-      text-align: center;
-    }
-    /* メインコンテンツ */
-    .container {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 0 20px;
-      background: #fff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      /* flex: 1; を削除してコンテナーが内容に合わせて高さを調整するようにする */
-    }
-    main {
-      flex: 1; /* コンテナーではなく、mainタグに適用してフッターを下に押し出す */
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    section {
-      padding: 20px;
-      border-bottom: 1px solid #eee;
-    }
-    section:last-child {
-      border-bottom: none;
-    }
-    /* セクション見出し */
-    h2 {
-      border-left: 4px solid #0F5474;
-      padding-left: 10px;
-      margin-bottom: 10px;
-    }
-    /* フッター */
-    footer {
-      text-align: center;
-      padding: 10px;
-      background-color: #0F5474;
-      color: #fff;
-      width: 100%;
-    }
-  </style>
+  <link rel="stylesheet" href="source/css/main.css">
+  <script type="module" src="source/js/app.js"></script>
 </head>
 
 <body>
   <header>
     <h1>上条 藍悠 のホームページ</h1>
     <p>Aihisa Kamijo's Home Page</p>
+    <div class="theme-switch-wrapper">
+      <label class="theme-switch" for="checkbox">
+        <input type="checkbox" id="checkbox" />
+        <div class="slider">
+          <div class="slider-icons">
+            <i>☀️</i>
+            <i>🌙</i>
+          </div>
+        </div>
+      </label>
+    </div>
+    <div class="menu-button" id="menuButton">
+      <div class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <nav class="main-nav" id="mainNav">
+      <ul>
+        <li><a href="#top" data-section="top">Top</a></li>
+        <li class="has-submenu">
+          <a href="#about" data-section="about" class="menu-link">プロフィール</a>
+          <div class="submenu-toggle"></div>
+          <ul class="submenu">
+            <li><a href="#about-introduction" data-section="about-introduction">自己紹介</a></li>
+            <li><a href="#career" data-section="career">経歴</a></li>
+          </ul>
+        </li>
+        <li class="has-submenu">
+          <a href="#portfolio" data-section="portfolio" class="menu-link">作品・活動</a>
+          <div class="submenu-toggle"></div>
+          <ul class="submenu">
+            <li><a href="#portfolio-detail" data-section="portfolio-detail">ポートフォリオ</a></li>
+            <li><a href="#projects" data-section="projects">プロジェクト</a></li>
+          </ul>
+        </li>
+        <li class="has-submenu">
+          <a href="#notes" data-section="notes" class="menu-link">資料・備忘録</a>
+          <div class="submenu-toggle"></div>
+          <ul class="submenu">
+            <li class="has-submenu">
+              <a href="#notes-xx" data-section="notes-xx" class="menu-link">xxについて</a>
+              <div class="submenu-toggle"></div>
+              <ul class="submenu">
+                <li><a href="#notes-xx-1" data-section="notes-xx-1">xxについて 1</a></li>
+                <li><a href="#notes-xx-2" data-section="notes-xx-2">xxについて 2</a></li>
+              </ul>
+            </li>
+            <li class="has-submenu">
+              <a href="#notes-yy" data-section="notes-yy" class="menu-link">yyについて</a>
+              <div class="submenu-toggle"></div>
+              <ul class="submenu">
+                <li><a href="#notes-yy-1" data-section="notes-yy-1">yyについて 1</a></li>
+                <li><a href="#notes-yy-2" data-section="notes-yy-2">yyについて 2</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#contact" data-section="contact">お問い合わせ</a></li>
+      </ul>
+    </nav>
   </header>
 
   <main>
-    <div class="container">
-      <section id="about">
-        <h2>自己紹介</h2>
-        <p>TBD</p>
-      </section>
-
-      <section id="carrer">
-        <h2>経歴</h2>
-        <p>TBD</p>
-      </section>
-
-      <section id="portfolio">
-        <h2>ポートフォリオ</h2>
-        <p>TBD</p>
-      </section>
-
-      <section id="contact">
-        <h2>お問い合わせ</h2>
-        <p>TBD</p>
-      </section>
+    <div class="container" id="contentContainer">
+      <!-- コンテンツがここに動的に読み込まれます -->
+      <div id="loading" class="loading-indicator" style="display: none;">
+        <p>読み込み中...</p>
+      </div>
     </div>
   </main>
 
