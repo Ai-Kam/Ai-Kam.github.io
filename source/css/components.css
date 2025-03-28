@@ -531,4 +531,17 @@
   .google-form-container iframe {
     height: 600px;
   }
+}
+
+/* ヘッダーリンクスタイル */
+.header-link {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.header-link:hover {
+  color: var(--accent-color);
+  text-decoration: none;
 } 
