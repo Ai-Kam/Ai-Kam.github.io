@@ -324,9 +324,15 @@
 .nav-links {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: 40px;
   padding-top: 20px;
   border-top: 1px solid var(--border-color);
+  position: relative;
+}
+
+.back-link-container {
+  margin-left: auto;
 }
 
 .back-link, .next-link {
@@ -549,4 +555,49 @@
 .header-link:hover {
   color: var(--accent-color);
   text-decoration: none;
+}
+
+/* ページネーションスタイル */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.pagination-arrow,
+.pagination-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin: 0 4px;
+  border-radius: 4px;
+  color: var(--text-color);
+  text-decoration: none;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.pagination-arrow {
+  background-color: var(--card-bg-color);
+}
+
+.pagination-number {
+  background-color: var(--card-bg-color);
+}
+
+.pagination-number.active {
+  background-color: var(--accent-color);
+  color: white;
+  font-weight: bold;
+  border-color: var(--accent-color);
+}
+
+.pagination-arrow:hover,
+.pagination-number:hover:not(.active) {
+  background-color: var(--accent-hover-color);
+  color: white;
 } 
