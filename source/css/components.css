@@ -503,4 +503,32 @@
     max-width: 600px;
     margin: 0 auto;
   }
+}
+
+/* Googleフォーム埋め込み用スタイル */
+.google-form-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto 2rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.google-form-container iframe {
+  display: block;
+  border: none;
+  width: 100%;
+}
+
+/* モバイル対応 */
+@media (max-width: 767px) {
+  .google-form-container {
+    box-shadow: none;
+    border: 1px solid var(--border-color);
+  }
+  
+  .google-form-container iframe {
+    height: 600px;
+  }
 } 
