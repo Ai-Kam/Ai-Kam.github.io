@@ -330,19 +330,22 @@
   position: relative;
 }
 
+.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 10px 0;
   text-align: center;
-  width: 100%;
 }
 
 .back-link-container {
-  margin-left: auto;
-  margin-top: 20px;
-  align-self: flex-end;
+  margin-left: 20px;
 }
 
 .back-link, .next-link {

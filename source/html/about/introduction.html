@@ -17,7 +17,18 @@
   <p>〇〇の分野で〇〇年の経験があり、特に〇〇に強みを持っています。〇〇の技術やスキルを活かして、〇〇を目指しています。</p>
   
   <div class="nav-links">
-    <a href="#about" data-section="about" class="back-link">プロフィールへ戻る</a>
-    <a href="#career" data-section="career" class="next-link">次へ: 経歴</a>
+    <div class="pagination-container">
+      <!-- ページネーションメニュー -->
+      <div class="pagination">
+        <a href="#about" data-section="about" class="pagination-arrow">&lt;</a>
+        <a href="#about-introduction" data-section="about-introduction" class="pagination-number active">1</a>
+        <a href="#career" data-section="career" class="pagination-number">2</a>
+        <a href="#career" data-section="career" class="pagination-arrow">&gt;</a>
+      </div>
+      
+      <div class="back-link-container">
+        <a href="#about" data-section="about" class="back-link">プロフィールへ戻る</a>
+      </div>
+    </div>
   </div>
 </section> 
