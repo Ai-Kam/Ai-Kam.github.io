@@ -323,16 +323,26 @@
 /* 詳細ページのナビゲーションリンク */
 .nav-links {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
   margin-top: 40px;
   padding-top: 20px;
   border-top: 1px solid var(--border-color);
   position: relative;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+  text-align: center;
+  width: 100%;
+}
+
 .back-link-container {
   margin-left: auto;
+  margin-top: 20px;
+  align-self: flex-end;
 }
 
 .back-link, .next-link {
@@ -558,14 +568,6 @@
 }
 
 /* ページネーションスタイル */
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 2rem 0;
-  text-align: center;
-}
-
 .pagination-arrow,
 .pagination-number {
   display: inline-flex;
