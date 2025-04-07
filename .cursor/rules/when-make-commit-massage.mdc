@@ -1,0 +1,21 @@
+---
+description: when you make commit massage:
+globs: 
+alwaysApply: false
+---
+
+# Your rule content
+
+コミットメッセージは英語で作成してください。
+フォーマットは
+
+v-x.x.x
+
+箇条書き
+
+になります。
+コミットメッセージ以外は出力しないでください。
+バージョン情報はgitのcommit履歴から読み取ってください。
+
+- You can @ files here
+- You can use markdown but dont have to

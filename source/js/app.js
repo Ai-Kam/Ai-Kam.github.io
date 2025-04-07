@@ -102,64 +102,55 @@ const setupPagination = () => {
   // 現在のアクティブページを取得
   const activePage = parseInt(pagination.querySelector('.pagination-number.active').textContent);
   
-  // 前後のページ矢印を取得
-  const prevArrow = pagination.querySelector('.pagination-arrow:first-child');
-  const nextArrow = pagination.querySelector('.pagination-arrow:last-child');
-  
-  // 一度すべてのページ番号を非表示
+  // すべてのページ番号と省略記号を一旦非表示にする
   pageNumbers.forEach(page => {
     page.style.display = 'none';
   });
   
-  // 常に表示するページ番号を決定
-  const firstPage = pageNumbers[0];
-  const lastPage = pageNumbers[pageNumbers.length - 1];
+  // 既存の省略記号を削除
+  pagination.querySelectorAll('.pagination-ellipsis').forEach(el => el.remove());
   
-  // 常に最初と最後のページは表示
+  // 常に表示するページ番号の決定と表示
+  const firstPage = pageNumbers[0]; // 最初のページ
+  const lastPage = pageNumbers[pageNumbers.length - 1]; // 最後のページ
+  
+  // 最初と最後のページは常に表示
   firstPage.style.display = 'inline-flex';
   lastPage.style.display = 'inline-flex';
   
-  // 省略記号の要素を作成
+  // 省略記号を作成する関数
   const createEllipsis = () => {
     const ellipsis = document.createElement('span');
     ellipsis.className = 'pagination-ellipsis';
     ellipsis.textContent = '...';
     return ellipsis;
   };
+
+  // 表示すべきページ番号の決定（現在のページとその前後）
+  let pagesToShow = [];
   
-  // 既存の省略記号を削除
-  pagination.querySelectorAll('.pagination-ellipsis').forEach(el => el.remove());
-  
-  // 表示するページ番号を決定
-  let pagesToShow = [1, totalPages];
-  
-  if (activePage > 3) {
-    pagesToShow.push(activePage - 1);
+  // 現在のページとその前後のページを表示
+  for (let i = Math.max(1, activePage - 1); i <= Math.min(totalPages, activePage + 1); i++) {
+    pagesToShow.push(i);
   }
   
-  pagesToShow.push(activePage);
-  
-  if (activePage < totalPages - 2) {
-    pagesToShow.push(activePage + 1);
-  }
-  
-  // 表示するページを設定
+  // ページ番号の表示を設定
   pageNumbers.forEach(page => {
     const pageNum = parseInt(page.textContent);
-    if (pagesToShow.includes(pageNum)) {
+    if (pagesToShow.includes(pageNum) || pageNum === 1 || pageNum === totalPages) {
       page.style.display = 'inline-flex';
     }
   });
   
   // 省略記号の追加
-  if (activePage > 4) {
-    // 最初のページの後に省略記号
+  // 最初のページと表示されるページの間に隙間がある場合、省略記号を追加
+  if (!pagesToShow.includes(2) && totalPages > 2) {
     const firstEllipsis = createEllipsis();
-    pagination.insertBefore(firstEllipsis, pageNumbers[1].nextSibling);
+    pagination.insertBefore(firstEllipsis, pageNumbers[1]);
   }
   
-  if (activePage < totalPages - 3) {
-    // 最後のページの前に省略記号
+  // 最後のページと表示されるページの間に隙間がある場合、省略記号を追加
+  if (!pagesToShow.includes(totalPages - 1) && totalPages > 2) {
     const lastEllipsis = createEllipsis();
     pagination.insertBefore(lastEllipsis, pageNumbers[pageNumbers.length - 1]);
   }
