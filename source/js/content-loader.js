@@ -60,9 +60,23 @@ const ContentLoader = {
       'notes-xx': 'notes/xx/index.html',
       'notes-xx-1': 'notes/xx/part1.html',
       'notes-xx-2': 'notes/xx/part2.html',
+      'notes-xx-3': 'notes/xx/part3.html',
+      'notes-xx-4': 'notes/xx/part4.html',
+      'notes-xx-5': 'notes/xx/part5.html',
+      'notes-xx-6': 'notes/xx/part6.html',
+      'notes-xx-7': 'notes/xx/part7.html',
       'notes-yy': 'notes/yy/index.html',
       'notes-yy-1': 'notes/yy/part1.html',
-      'notes-yy-2': 'notes/yy/part2.html'
+      'notes-yy-2': 'notes/yy/part2.html',
+      'notes-yy-3': 'notes/yy/part3.html',
+      'notes-yy-4': 'notes/yy/part4.html',
+      'notes-yy-5': 'notes/yy/part5.html',
+      'notes-yy-6': 'notes/yy/part6.html',
+      'notes-zz': 'notes/zz/index.html',
+      'notes-zz-1': 'notes/zz/part1.html',
+      'notes-zz-2': 'notes/zz/part2.html',
+      'notes-zz-3': 'notes/zz/part3.html',
+      'notes-zz-4': 'notes/zz/part4.html'
     };
     
     return pathMap[sectionId] || `${sectionId}.html`;
