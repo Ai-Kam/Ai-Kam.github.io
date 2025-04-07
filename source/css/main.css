@@ -11,4 +11,10 @@
 @import url('./components.css');
 
 /* テーマ切り替えスイッチ */
-@import url('./theme-switch.css'); 
+@import url('./theme-switch.css');
+
+.indented-content {
+  margin-left: 2em;
+  padding-left: 1em;
+  border-left: 2px solid var(--text-color);
+} 
